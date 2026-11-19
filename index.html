@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nuestro Baúl</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Degradado intenso y masculino */
+        /* Fondo pastel cálido degradado hacia blanco puro */
         body { 
-            background: linear-gradient(135deg, #1f2937 0%, #0f172a 50%, #451a03 100%);
+            background: linear-gradient(180deg, #dcc4b8 0%, #efe2db 52%, #ffffff 100%);
             overflow: hidden; 
             font-family: 'Poppins', sans-serif; 
-            color: #f3f4f6; 
+            color: #4a3f3c; 
             touch-action: manipulation; 
         }
         .cursive { font-family: 'Dancing Script', cursive; }
@@ -20,34 +20,35 @@
         /* Animación del cofre flotando */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-9px); }
         }
         .float { animation: float 3s ease-in-out infinite; }
         
-        /* Efecto Polaroid */
+        /* Efecto Polaroid con borde sutil para destacar sobre el fondo blanco */
         .polaroid {
             background: #ffffff;
-            padding: 12px 12px 50px 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); 
+            padding: 12px 12px 48px 12px;
+            border: 1px solid #e6d7cf;
+            box-shadow: 0 20px 40px rgba(74, 63, 60, 0.16); 
             border-radius: 4px;
             transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
             opacity: 0; 
             transform: scale(0.9) rotate(-3deg);
             max-width: 85vw;
-            max-height: 65vh;
+            max-height: 62vh;
             object-fit: cover;
         }
         
         .polaroid.visible { opacity: 1; transform: scale(1) rotate(3deg); }
         .polaroid.visible-alt { opacity: 1; transform: scale(1) rotate(-2deg); }
 
-        /* Brillo sutil en el cofre */
-        .glow {
-            filter: drop-shadow(0 0 15px rgba(217, 119, 6, 0.4));
-            transition: filter 0.3s ease;
+        /* Sombra natural del cofre */
+        .chest-shadow {
+            filter: drop-shadow(0 14px 20px rgba(74, 53, 37, 0.25));
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
-        .chest-container:hover .glow {
-            filter: drop-shadow(0 0 25px rgba(217, 119, 6, 0.8));
+        .chest-container:active .chest-shadow {
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -55,16 +56,22 @@
 
     <audio id="musica" src="cancion.mp3" loop></audio>
 
-    <!-- ESCENA 1: EL COFRE DETALLADO -->
-    <div id="escena-baul" class="flex flex-col items-center justify-center z-50 transition-opacity duration-1000 w-full px-6">
-        <h2 class="text-[#e5e7eb] text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
+    <!-- AVISO DE VOLUMEN (Aparece al abrir el baúl) -->
+    <div id="aviso-volumen" class="hidden opacity-0 transition-opacity duration-700 fixed top-8 z-50 bg-white/90 backdrop-blur-md border border-[#d8c3b8] text-[#4a3f3c] px-5 py-2.5 rounded-full shadow-md flex items-center gap-2 text-sm font-medium">
+        <span class="text-base">🔊</span>
+        <span>Sube el volumen de tu celular...</span>
+    </div>
+
+    <!-- ESCENA 1: EL COFRE -->
+    <div id="escena-baul" class="flex flex-col items-center justify-center z-40 transition-opacity duration-1000 w-full px-6">
+        <h2 class="text-[#4a3f3c] text-lg sm:text-xl text-center mb-10 font-normal tracking-wide leading-relaxed">
             Buenos días amorcito y antioquia...<br>
-            <span class="text-sm text-[#9ca3af] animate-pulse mt-4 block">Toca el cofre para abrirlo</span>
+            <span class="text-sm text-[#7d6b66] animate-pulse mt-3 block font-light">Toca el cofre para abrirlo</span>
         </h2>
         
-        <!-- Cofre SVG ilustrado con madera y remaches -->
+        <!-- Cofre SVG ilustrado con madera, herrajes y cerradura -->
         <div class="chest-container cursor-pointer float select-none" onclick="abrirBaul()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" class="w-40 h-40 glow">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" class="w-40 h-40 chest-shadow">
                 <!-- Tapa del cofre (Madera) -->
                 <path d="M 20 70 C 20 20, 180 20, 180 70 Z" fill="#78350f" stroke="#451a03" stroke-width="4"/>
                 <path d="M 25 65 C 30 25, 170 25, 175 65" fill="none" stroke="#92400e" stroke-width="2"/>
@@ -107,14 +114,13 @@
         <div id="foto-container" class="relative flex items-center justify-center w-full h-full">
             <img id="foto-actual" src="" class="polaroid">
             
-            <p class="absolute bottom-8 sm:bottom-12 text-[#f3f4f6] cursive text-3xl drop-shadow-md tracking-wider font-bold">
+            <p class="absolute bottom-8 sm:bottom-12 text-[#5a4c48] cursive text-3xl tracking-wider font-bold">
                 que linda es la vida contigo
             </p>
         </div>
     </div>
 
     <script>
-        // LISTA CON 12 FOTOS
         const fotos = [
             'foto1.jpeg',
             'foto2.jpeg',
@@ -135,10 +141,25 @@
         const imgElement = document.getElementById('foto-actual');
 
         function abrirBaul() {
+            // 1. Iniciar música
             const musica = document.getElementById('musica');
-            musica.volume = 0.7; 
+            musica.volume = 0.85; 
             musica.play();
 
+            // 2. Mostrar aviso para subir el volumen
+            const avisoVolumen = document.getElementById('aviso-volumen');
+            avisoVolumen.classList.remove('hidden');
+            setTimeout(() => {
+                avisoVolumen.classList.remove('opacity-0');
+            }, 50);
+
+            // Ocultar el aviso suavemente después de 8 segundos
+            setTimeout(() => {
+                avisoVolumen.classList.add('opacity-0');
+                setTimeout(() => avisoVolumen.classList.add('hidden'), 700);
+            }, 8000);
+
+            // 3. Desvanecer el cofre y abrir galería
             const escenaBaul = document.getElementById('escena-baul');
             escenaBaul.style.opacity = '0';
             
