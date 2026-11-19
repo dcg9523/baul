@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nuestro Baúl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0a0a0a; overflow: hidden; font-family: 'Poppins', sans-serif; color: white; touch-action: manipulation; }
+        .cursive { font-family: 'Dancing Script', cursive; }
+        
+        /* Animación del baúl flotando */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        
+        /* Efecto Polaroid para las fotos */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 50px 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            border-radius: 4px;
+            transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+            opacity: 0; 
+            transform: scale(0.9) rotate(-3deg);
+            max-width: 85vw;
+            max-height: 65vh;
+            object-fit: cover;
+        }
+        
+        .polaroid.visible { opacity: 1; transform: scale(1) rotate(3deg); }
+        .polaroid.visible-alt { opacity: 1; transform: scale(1) rotate(-2deg); }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col items-center justify-center relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 via-black to-black">
+
+    <!-- EL ARCHIVO DE AUDIO -->
+    <audio id="musica" src="cancion.mp3" loop></audio>
+
+    <!-- ESCENA 1: EL BAÚL -->
+    <div id="escena-baul" class="flex flex-col items-center justify-center z-50 transition-opacity duration-1000 w-full px-6">
+        <h2 class="text-gray-300 text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
+            Hay recuerdos que brillan para siempre...<br>
+            <span class="text-sm text-gray-500 animate-pulse mt-4 block">Toca el baúl para abrirlo</span>
+        </h2>
+        <div class="text-8xl sm:text-9xl cursor-pointer float select-none" onclick="abrirBaul()">
+            🧳
+        </div>
+    </div>
+
+    <!-- ESCENA 2: LAS FOTOS -->
+    <div id="escena-fotos" class="hidden absolute inset-0 flex-col items-center justify-center z-10 w-full h-full">
+        <div id="foto-container" class="relative flex items-center justify-center w-full h-full">
+            <img id="foto-actual" src="" class="polaroid">
+            
+            <p class="absolute bottom-8 sm:bottom-12 text-white/40 cursive text-3xl drop-shadow-md tracking-wider">
+                Brillante sobre el mic...
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // LISTA DE 10 FOTOS EN FORMATO JPEG
+        const fotos = [
+            'foto1.jpeg',
+            'foto2.jpeg',
+            'foto3.jpeg',
+            'foto4.jpeg',
+            'foto5.jpeg',
+            'foto6.jpeg',
+            'foto7.jpeg',
+            'foto8.jpeg',
+            'foto9.jpeg',
+            'foto10.jpeg'
+        ];
+        
+        let indiceFoto = 0;
+        let alternate = false;
+        const imgElement = document.getElementById('foto-actual');
+
+        function abrirBaul() {
+            const musica = document.getElementById('musica');
+            musica.volume = 0.7; 
+            musica.play();
+
+            const escenaBaul = document.getElementById('escena-baul');
+            escenaBaul.style.opacity = '0';
+            
+            setTimeout(() => {
+                escenaBaul.classList.add('hidden');
+                
+                const escenaFotos = document.getElementById('escena-fotos');
+                escenaFotos.classList.remove('hidden');
+                escenaFotos.classList.add('flex');
+                
+                mostrarSiguienteFoto();
+                setInterval(mostrarSiguienteFoto, 5000);
+            }, 1000);
+        }
+
+        function mostrarSiguienteFoto() {
+            imgElement.classList.remove('visible', 'visible-alt');
+            
+            setTimeout(() => {
+                imgElement.src = fotos[indiceFoto];
+                
+                imgElement.onload = () => {
+                    if(alternate) {
+                        imgElement.classList.add('visible-alt');
+                    } else {
+                        imgElement.classList.add('visible');
+                    }
+                    alternate = !alternate;
+                    
+                    indiceFoto = (indiceFoto + 1) % fotos.length;
+                };
+            }, 1200); 
+        }
+    </script>
+</body>
+</html>
