@@ -7,22 +7,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0a0a0a; overflow: hidden; font-family: 'Poppins', sans-serif; color: white; touch-action: manipulation; }
+        /* Fondo color pastel mate (no brillante) */
+        body { 
+            background: linear-gradient(135deg, #f0e4e1 0%, #e1d5d1 100%);
+            overflow: hidden; 
+            font-family: 'Poppins', sans-serif; 
+            color: #544845; 
+            touch-action: manipulation; 
+        }
         .cursive { font-family: 'Dancing Script', cursive; }
         
-        /* Animación del baúl flotando */
+        /* Animación del cofre flotando */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
         .float { animation: float 3s ease-in-out infinite; }
         
-        /* Efecto Polaroid para las fotos */
+        /* Efecto Polaroid ajustado para fondo claro */
         .polaroid {
-            background: white;
+            background: #ffffff;
             padding: 12px 12px 50px 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(100, 80, 80, 0.15); /* Sombra más suave */
+            border-radius: 2px;
             transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
             opacity: 0; 
             transform: scale(0.9) rotate(-3deg);
@@ -35,19 +42,23 @@
         .polaroid.visible-alt { opacity: 1; transform: scale(1) rotate(-2deg); }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col items-center justify-center relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 via-black to-black">
+<body class="h-screen w-screen flex flex-col items-center justify-center relative">
 
-    <!-- EL ARCHIVO DE AUDIO -->
     <audio id="musica" src="cancion.mp3" loop></audio>
 
-    <!-- ESCENA 1: EL BAÚL -->
+    <!-- ESCENA 1: EL COFRE MINIMALISTA -->
     <div id="escena-baul" class="flex flex-col items-center justify-center z-50 transition-opacity duration-1000 w-full px-6">
-        <h2 class="text-gray-300 text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
+        <h2 class="text-[#6b5b58] text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
             Hay recuerdos que brillan para siempre...<br>
-            <span class="text-sm text-gray-500 animate-pulse mt-4 block">Toca el baúl para abrirlo</span>
+            <span class="text-sm text-[#9c8985] animate-pulse mt-4 block">Toca el cofre para abrirlo</span>
         </h2>
-        <div class="text-8xl sm:text-9xl cursor-pointer float select-none" onclick="abrirBaul()">
-            🧳
+        
+        <!-- Icono de cofre en vez de emoji -->
+        <div class="cursor-pointer float select-none text-[#8c746e] hover:text-[#a68c85] transition-colors duration-300" onclick="abrirBaul()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-32 h-32 drop-shadow-md">
+                <path d="M4.5 9h15A1.5 1.5 0 0 0 21 7.5V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5A1.5 1.5 0 0 0 4.5 9z" />
+                <path d="M3 10.5v8.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75v-8.25H3zm7.5 0v2.25c0 .414.336.75.75.75h1.5a.75.75 0 0 0 .75-.75V10.5H10.5z" />
+            </svg>
         </div>
     </div>
 
@@ -56,14 +67,13 @@
         <div id="foto-container" class="relative flex items-center justify-center w-full h-full">
             <img id="foto-actual" src="" class="polaroid">
             
-            <p class="absolute bottom-8 sm:bottom-12 text-white/40 cursive text-3xl drop-shadow-md tracking-wider">
+            <p class="absolute bottom-8 sm:bottom-12 text-[#9c8985] cursive text-3xl drop-shadow-sm tracking-wider">
                 Brillante sobre el mic...
             </p>
         </div>
     </div>
 
     <script>
-        // LISTA DE 10 FOTOS EN FORMATO JPEG
         const fotos = [
             'foto1.jpeg',
             'foto2.jpeg',
