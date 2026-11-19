@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nuestro Baúl</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Fondo con degradado cálido y masculino */
+        /* Degradado intenso y masculino */
         body { 
-            background: linear-gradient(135deg, #d5c3ba 0%, #bca59a 100%);
+            background: linear-gradient(135deg, #1f2937 0%, #0f172a 50%, #451a03 100%);
             overflow: hidden; 
             font-family: 'Poppins', sans-serif; 
-            color: #4a3f3c; 
+            color: #f3f4f6; 
             touch-action: manipulation; 
         }
         .cursive { font-family: 'Dancing Script', cursive; }
@@ -20,16 +20,16 @@
         /* Animación del cofre flotando */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-10px); }
         }
         .float { animation: float 3s ease-in-out infinite; }
         
-        /* Efecto Polaroid ajustado */
+        /* Efecto Polaroid */
         .polaroid {
             background: #ffffff;
             padding: 12px 12px 50px 12px;
-            box-shadow: 0 20px 40px rgba(74, 63, 60, 0.2); 
-            border-radius: 2px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); 
+            border-radius: 4px;
             transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
             opacity: 0; 
             transform: scale(0.9) rotate(-3deg);
@@ -41,13 +41,13 @@
         .polaroid.visible { opacity: 1; transform: scale(1) rotate(3deg); }
         .polaroid.visible-alt { opacity: 1; transform: scale(1) rotate(-2deg); }
 
-        /* Estilo para el icono del cofre */
-        .chest-icon {
-            fill: #8a7369;
-            transition: fill 0.3s ease;
+        /* Brillo sutil en el cofre */
+        .glow {
+            filter: drop-shadow(0 0 15px rgba(217, 119, 6, 0.4));
+            transition: filter 0.3s ease;
         }
-        .chest-container:hover .chest-icon {
-            fill: #725d55;
+        .chest-container:hover .glow {
+            filter: drop-shadow(0 0 25px rgba(217, 119, 6, 0.8));
         }
     </style>
 </head>
@@ -55,18 +55,49 @@
 
     <audio id="musica" src="cancion.mp3" loop></audio>
 
-    <!-- ESCENA 1: EL COFRE -->
+    <!-- ESCENA 1: EL COFRE DETALLADO -->
     <div id="escena-baul" class="flex flex-col items-center justify-center z-50 transition-opacity duration-1000 w-full px-6">
-        <h2 class="text-[#5a4c48] text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
+        <h2 class="text-[#e5e7eb] text-lg sm:text-xl text-center mb-10 font-light tracking-wide">
             Buenos días amorcito y antioquia...<br>
-            <span class="text-sm text-[#8a7369] animate-pulse mt-4 block">Toca el cofre para abrirlo</span>
+            <span class="text-sm text-[#9ca3af] animate-pulse mt-4 block">Toca el cofre para abrirlo</span>
         </h2>
         
-        <!-- Icono de cofre detallado -->
+        <!-- Cofre SVG ilustrado con madera y remaches -->
         <div class="chest-container cursor-pointer float select-none" onclick="abrirBaul()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-32 h-32 drop-shadow-lg chest-icon">
-                <path d="M4.5 10.5h15c.828 0 1.5-.672 1.5-1.5v-1.5c0-1.657-1.343-3-3-3h-12c-1.657 0-3 1.343-3 3v1.5c0 .828.672 1.5 1.5 1.5zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                <path d="M3 12v6.75A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V12H3zm9 3.75a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" class="w-40 h-40 glow">
+                <!-- Tapa del cofre (Madera) -->
+                <path d="M 20 70 C 20 20, 180 20, 180 70 Z" fill="#78350f" stroke="#451a03" stroke-width="4"/>
+                <path d="M 25 65 C 30 25, 170 25, 175 65" fill="none" stroke="#92400e" stroke-width="2"/>
+                <path d="M 35 60 C 45 35, 155 35, 165 60" fill="none" stroke="#92400e" stroke-width="2"/>
+                
+                <!-- Refuerzos metálicos de la tapa -->
+                <path d="M 20 70 C 20 20, 45 20, 45 70 Z" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+                <path d="M 180 70 C 180 20, 155 20, 155 70 Z" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+                <rect x="90" y="20" width="20" height="50" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+                
+                <!-- Base del cofre (Madera) -->
+                <rect x="20" y="70" width="160" height="70" rx="5" fill="#78350f" stroke="#451a03" stroke-width="4"/>
+                <line x1="20" y1="90" x2="180" y2="90" stroke="#451a03" stroke-width="3"/>
+                <line x1="20" y1="110" x2="180" y2="110" stroke="#451a03" stroke-width="3"/>
+                <line x1="20" y1="130" x2="180" y2="130" stroke="#451a03" stroke-width="3"/>
+                
+                <!-- Refuerzos metálicos de la base -->
+                <rect x="20" y="70" width="25" height="70" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+                <rect x="155" y="70" width="25" height="70" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+                
+                <!-- Remaches metálicos -->
+                <circle cx="32" cy="45" r="3" fill="#fbbf24"/>
+                <circle cx="167" cy="45" r="3" fill="#fbbf24"/>
+                <circle cx="100" cy="30" r="3" fill="#fbbf24"/>
+                <circle cx="32" cy="80" r="3" fill="#fbbf24"/>
+                <circle cx="32" cy="120" r="3" fill="#fbbf24"/>
+                <circle cx="167" cy="80" r="3" fill="#fbbf24"/>
+                <circle cx="167" cy="120" r="3" fill="#fbbf24"/>
+                
+                <!-- Cerradura dorada -->
+                <rect x="85" y="60" width="30" height="35" rx="5" fill="#fbbf24" stroke="#b45309" stroke-width="3"/>
+                <circle cx="100" cy="73" r="5" fill="#1f2937"/>
+                <rect x="98" y="73" width="4" height="12" fill="#1f2937"/>
             </svg>
         </div>
     </div>
@@ -76,14 +107,14 @@
         <div id="foto-container" class="relative flex items-center justify-center w-full h-full">
             <img id="foto-actual" src="" class="polaroid">
             
-            <p class="absolute bottom-8 sm:bottom-12 text-[#5a4c48] cursive text-3xl drop-shadow-sm tracking-wider font-bold">
-                Qué linda es la vida contigo
+            <p class="absolute bottom-8 sm:bottom-12 text-[#f3f4f6] cursive text-3xl drop-shadow-md tracking-wider font-bold">
+                que linda es la vida contigo
             </p>
         </div>
     </div>
 
     <script>
-        // LISTA ACTUALIZADA CON 12 FOTOS
+        // LISTA CON 12 FOTOS
         const fotos = [
             'foto1.jpeg',
             'foto2.jpeg',
